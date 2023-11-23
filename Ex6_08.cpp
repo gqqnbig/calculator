@@ -68,17 +68,19 @@ double atof_s(const char* p)
 // If not found, return the length of str.
 size_t strcspnr(const char* str, const char* control)
 {
-	int length = strlen(control);
 
-	const char* maxP = str;
-	for (int i = 0; i < length; i++)
+	const char* maxP = str - 1;
+	for (int i = 0; i < strlen(control); i++)
 	{
 		const char* p = strrchr(str, *(control + i));
 		if (p != nullptr && p > maxP)
 			maxP = p;
 	}
 
-	return maxP - str;
+	if (maxP == str - 1)
+		return strlen(str);
+	else
+		return maxP - str;
 }
 
 // char* input, double v1, char* middle are input
