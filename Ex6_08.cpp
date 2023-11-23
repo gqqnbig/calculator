@@ -178,6 +178,7 @@ void findFirstCalculation(double*& v1, char* input, double*& v2, double (*&f)(do
 void testStrcspnr()
 {
 	assert(3 == strcspnr("--++1", "-+"));
+	assert(4 == strcspnr("----", "+"));
 }
 
 
