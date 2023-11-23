@@ -261,7 +261,7 @@ double calculate(double* value1, char* str, double* value2)
 	else if (lastIndex < 0)// inputBefore is empty
 	{
 		assert(("If inputBefore is empty, the value before it must be empty. Otherwise the input is malformed.", value1 == nullptr));
-		res = calculate(z, inputAfter, nullptr);
+		res = calculate(z, inputAfter, value2);
 		delete z;
 		return res;
 	}
