@@ -38,6 +38,7 @@ double substracts(double a, double b)
 }
 
 
+double calculate(char* str);
 double calculate(double* value1, char* str, double* value2);
 
 
@@ -176,6 +177,10 @@ void findFirstCalculation(double*& v1, char* input, double*& v2, double (*&f)(do
 }
 
 
+bool AreSame(double a, double b)
+{
+	return fabs(a - b) < 0.001;
+}
 
 void testStrcspnr()
 {
@@ -183,12 +188,30 @@ void testStrcspnr()
 	assert(4 == strcspnr("----", "+"));
 }
 
+void testCalculate()
+{
+	char p1[] = "1-2*3/4+5";
+	assert(AreSame(4.5, calculate(nullptr, p1, nullptr)));
+
+	char p2[] = "1.2+5.7*33.3/7-50";
+	assert(AreSame(-21.6843, calculate(nullptr, p2, nullptr)));
+
+	char p3[] = "2*3.14159*12.6*12.6/2+25.2*25.2";
+	assert(AreSame(1133.7988, calculate(nullptr, p3, nullptr)));
+
+	char p4[] = "-1-1+2*3";
+	assert(AreSame(4, calculate(p4)));
+
+	char p5[] = "1-1-1-1-2";
+	assert(AreSame(-4, calculate(p5)));
+}
 
 void main()
 {
 	try
 	{
 		testStrcspnr();
+		testCalculate();
 	}
 	catch (const char* ex)
 	{
@@ -208,7 +231,7 @@ void main()
 
 	try
 	{
-		double res = calculate(nullptr, input, nullptr);
+		double res = calculate(input);
 
 		cout << endl << "Result is " << res;
 	}
@@ -219,6 +242,17 @@ void main()
 	}
 }
 
+
+double calculate(char* str)
+{
+	double* value1 = new double(0);
+	double* value2 = new double(0);
+
+	double res = calculate(value1, str, nullptr);
+	delete value1;
+	delete value2;
+	return res;
+}
 
 double calculate(double* value1, char* str, double* value2)
 {
@@ -263,7 +297,8 @@ double calculate(double* value1, char* str, double* value2)
 	}
 	else if (lastIndex < 0)// inputBefore is empty
 	{
-		assert(("If inputBefore is empty, the value before it must be empty. Otherwise the input is malformed.", value1 == nullptr));
+		//If inputBefore is empty, the value before it must be empty or the default value
+		//assert(("If inputBefore is empty, the value before it must be empty or the default value. Otherwise the input is malformed.", value1 == nullptr));
 		res = calculate(z, inputAfter, value2);
 		delete z;
 		return res;
