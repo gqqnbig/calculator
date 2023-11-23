@@ -174,12 +174,29 @@ void findFirstCalculation(double*& v1, char* input, double*& v2, double (*&f)(do
 }
 
 
+
+void testStrcspnr()
+{
+	assert(3 == strcspnr("--++1", "-+"));
+}
+
+
 void main()
 {
+	try
+	{
+		testStrcspnr();
+	}
+	catch (const char* ex)
+	{
+		cout << endl << "Error: " << ex;
+		delete ex;
+	}
+
 	const int length = 80;
 	char input[length];
 
-	cout << "Type your expression" << endl;
+	cout << endl << "Type your expression" << endl;
 	cin.getline(input, length);
 	remove_spaces(input);
 
