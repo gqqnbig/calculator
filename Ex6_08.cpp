@@ -70,11 +70,11 @@ size_t strcspnr(const char* str, const char* control)
 {
 	int length = strlen(control);
 
-	const char* maxP = str + strlen(str);
+	const char* maxP = str;
 	for (int i = 0; i < length; i++)
 	{
 		const char* p = strrchr(str, *(control + i));
-		if (p != nullptr && p < maxP)
+		if (p != nullptr && p > maxP)
 			maxP = p;
 	}
 
