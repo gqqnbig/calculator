@@ -5,17 +5,6 @@ using std::cout;
 using std::cin;
 using std::endl;
 
-
-void remove_spaces(char* str) {
-	char* d = str;
-	do {
-		while (*d == ' ') {
-			++d;
-		}
-		*str++ = *d++;
-	} while (*str != '\0');
-}
-
 double times(double a, double b)
 {
 	return a * b;
@@ -46,21 +35,22 @@ double calculate(double* value1, char* str, double* value2);
 
 double atof_s(const char* p)
 {
-	if (*p < '0' || *p>'9')
-	{
-		char* err = new char[30];
-		strcpy_s(err, 30, p);
-		strcat_s(err, 30, " is not a number.");
-		throw err;
-	}
 
 	double x = atof(p);
-	if (x == 0 && *p != '0')
+	if (x == 0)
 	{
-		char* err = new char[30];
-		strcpy_s(err, 30, p);
-		strcat_s(err, 30, " is not a number.");
-		throw err;
+		while (*p != '\0' && *p!=' ')
+			p++;
+		
+
+		//find the first valid character
+		if (*p != '-' && *p < '0' && *p > '9')
+		{
+			char* err = new char[30];
+			strcpy_s(err, 30, p);
+			strcat_s(err, 30, " is not a number.");
+			throw err;
+		}
 	}
 	return x;
 }
@@ -190,10 +180,10 @@ void testStrcspnr()
 
 void testCalculate()
 {
-	char p1[] = "1-2*3/4+5";
+	char p1[] = "1 -2 * 3 /4  + 5";
 	assert(AreSame(4.5, calculate(nullptr, p1, nullptr)));
 
-	char p2[] = "1.2+5.7*33.3/7-50";
+	char p2[] = "  1.2 + 5.7*33.3  /7-  50";
 	assert(AreSame(-21.6843, calculate(nullptr, p2, nullptr)));
 
 	char p3[] = "2*3.14159*12.6*12.6/2+25.2*25.2";
@@ -224,10 +214,6 @@ void main()
 
 	cout << endl << "Type your expression" << endl;
 	cin.getline(input, length);
-	remove_spaces(input);
-
-	cout << input;
-
 
 	try
 	{
