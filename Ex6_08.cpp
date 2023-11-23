@@ -236,7 +236,12 @@ double calculate(double* value1, char* str, double* value2)
 
 	double res;
 	int lastIndex = static_cast<int>(strlen(inputBefore)) - 1;
-	if (lastIndex < 0) // inputBefore is empty
+	if (lastIndex >= 0 && *(inputBefore + lastIndex) == '-')
+	{
+		*z = -*z;
+		*(inputBefore + lastIndex) = '+';
+	}
+	else if (lastIndex < 0)// inputBefore is empty
 	{
 		assert(("If inputBefore is empty, the value before it must be empty. Otherwise the input is malformed.", value1 == nullptr));
 		res = calculate(z, inputAfter, nullptr);
