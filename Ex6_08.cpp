@@ -235,7 +235,7 @@ double calculate(double* value1, char* str, double* value2)
 
 
 	double res;
-	size_t lastIndex = strlen(inputBefore) - 1;
+	int lastIndex = static_cast<int>(strlen(inputBefore)) - 1;
 	if (lastIndex < 0) // inputBefore is empty
 	{
 		assert(("If inputBefore is empty, the value before it must be empty. Otherwise the input is malformed.", value1 == nullptr));
